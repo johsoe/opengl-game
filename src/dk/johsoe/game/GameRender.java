@@ -3,11 +3,11 @@ package dk.johsoe.game;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.opengl.GLES20;
+import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
-import android.opengl.Matrix;
 import dk.johsoe.game.model.Square;
+import dk.johsoe.game.model.TextureSquare;
 
 public class GameRender implements GLSurfaceView.Renderer {
 
@@ -28,9 +28,13 @@ public class GameRender implements GLSurfaceView.Renderer {
 	        "}  \n";
 	
 	private Square mSquare = null;
+	private TextureSquare mTexSquare = null;
+	private Context mContext = null;
 	
-	public GameRender() {
+	public GameRender( Context context ) {
 		mSquare = new Square();
+		mTexSquare = new TextureSquare();
+		mContext = context;
 	}
 	
 	@Override
@@ -54,6 +58,18 @@ public class GameRender implements GLSurfaceView.Renderer {
 	    // Set the view matrix. This matrix can be said to represent the camera position.
 	    Matrix.setLookAtM(mCameraMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 	    */
+		// Load the texture for the square
+		mTexSquare.loadGLTexture(gl, mContext);
+
+		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )
+		gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading
+		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f); 	//Black Background
+		gl.glClearDepthf(1.0f); 					//Depth Buffer Setup
+		gl.glEnable(GL10.GL_DEPTH_TEST); 			//Enables Depth Testing
+		gl.glDepthFunc(GL10.GL_LEQUAL); 			//The Type Of Depth Testing To Do
+
+		//Really Nice Perspective Calculations
+		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
 	}
 
 	@Override
@@ -98,7 +114,8 @@ public class GameRender implements GLSurfaceView.Renderer {
 		// Drawing
 		gl.glTranslatef(0.0f, 0.0f, -5.0f);		// move 5 units INTO the screen
 		// is the same as moving the camera 5 units away
-		mSquare.draw(gl);						// Draw the triangle
+		//mSquare.draw(gl);						// Draw the triangle
+		mTexSquare.draw( gl );
 
 	}
 

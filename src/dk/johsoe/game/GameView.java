@@ -6,14 +6,15 @@ import android.opengl.GLSurfaceView;
 public class GameView extends GLSurfaceView {
 
 	private GameRender mRender;
-	
+	private Context mContext;
 	
 	public GameView(Context context) {
 		super(context);
+		mContext = context;
 	}
 	
 	public void init() {
-		mRender = new GameRender();
+		mRender = new GameRender( mContext );
 		setRenderer( mRender );
 		
 	}
