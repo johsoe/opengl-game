@@ -14,13 +14,11 @@ public class GameActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
-        
-        mGameView = new GameView( this );
+        mMovementController = new MovementController( this );
+        mGameView = new GameView( this, mMovementController );
         mGameView.init();
         
         setContentView( mGameView );
-        
-        mMovementController = new MovementController( this );
     }
     
     @Override

@@ -35,8 +35,8 @@ public class MovementController implements SensorEventListener {
 	    float pitch_angle = event.values[1];
 	    float roll_angle = event.values[2];
 	    
-	    //Log.i("","roll_angle --> " + roll_angle);
-	    //Log.i("","pitch_angle --> " + pitch_angle);
+	    Log.i("","roll_angle --> " + roll_angle);
+	    Log.i("","pitch_angle --> " + pitch_angle);
 	    
 	    mPitch = pitch_angle;
 	}
@@ -47,6 +47,10 @@ public class MovementController implements SensorEventListener {
 	
 	public void unregister() {
 		mSensorManager.unregisterListener(this);
+	}
+	
+	public float getPitch() {
+		return mPitch;
 	}
 
 }

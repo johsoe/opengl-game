@@ -8,11 +8,13 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import dk.johsoe.game.model.Square;
 import dk.johsoe.game.model.TextureSquare;
+import dk.johsoe.game.movement.MovementController;
 
 public class GameRender implements GLSurfaceView.Renderer {
 
 	private float[] mCameraMatrix = new float[16];
 	private float[] mProjectionMatrix = new float[16];
+	private MovementController mMovementController = null;
 	
 	private final String vertexShaderCode =
 	        // This matrix member variable provides a hook to manipulate
@@ -31,10 +33,11 @@ public class GameRender implements GLSurfaceView.Renderer {
 	private TextureSquare mTexSquare = null;
 	private Context mContext = null;
 	
-	public GameRender( Context context ) {
+	public GameRender( Context context, MovementController movementController ) {
 		mSquare = new Square();
 		mTexSquare = new TextureSquare();
 		mContext = context;
+		mMovementController = movementController;
 	}
 	
 	@Override
@@ -112,7 +115,8 @@ public class GameRender implements GLSurfaceView.Renderer {
 		gl.glLoadIdentity();
 
 		// Drawing
-		gl.glTranslatef(0.0f, 0.0f, -5.0f);		// move 5 units INTO the screen
+		gl.glTranslatef(mMovementController.getPitch()*-1f, -5f, -20.0f);	
+		//gl.glTranslatef(0.0f, 0.0f, -5.0f);		// move 5 units INTO the screen
 		// is the same as moving the camera 5 units away
 		//mSquare.draw(gl);						// Draw the triangle
 		mTexSquare.draw( gl );
